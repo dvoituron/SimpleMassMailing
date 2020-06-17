@@ -40,13 +40,22 @@ namespace SimpleMassMailing
 
                     if (toSend)
                     {
-                        mail.SendMail(row.EMail, content, row.Parameters);
-                        Console.WriteLine($"{String.Empty.PadLeft(confirmationPosition - confirmation.Length, ' ')} ... Sent");
+                        try
+                        {
+                            mail.SendMail(row.EMail, content, row.Parameters);
+                            Console.WriteLine($"{String.Empty.PadLeft(confirmationPosition - confirmation.Length, ' ')} ... Sent");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine(ex.Message);
+                            Console.ResetColor();
+                        }                                               
 
                         // Wait some seconds before the next sent
                         if (config.PromptBeforeSend == false)
                         {
-                            int timeBetweenNext = new Random().Next(1000, 3000);
+                            int timeBetweenNext = new Random().Next(500, 2000);
                             System.Threading.Thread.Sleep(timeBetweenNext);
                         }
                     }
@@ -62,8 +71,6 @@ namespace SimpleMassMailing
             }
 
             Console.WriteLine("Completed");
-            if (System.Diagnostics.Debugger.IsAttached)
-                Console.ReadLine();
         }
 
 

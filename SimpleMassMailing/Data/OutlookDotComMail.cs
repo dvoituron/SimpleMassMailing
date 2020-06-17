@@ -38,27 +38,21 @@ namespace SimpleMassMailing.Data
             client.EnableSsl = _configuration.Ssl;
             client.Credentials = credentials;
 
-            try
-            {
-                var from = new MailAddress(_configuration.From, _configuration.FromDisplayName);
-                var to = new MailAddress(targetEMail);
-                var mail = new MailMessage(from, to);                
-                mail.IsBodyHtml = true;
-                mail.Subject = message.Subject;
-                mail.Body = message.Body;
+            var from = new MailAddress(_configuration.From, _configuration.FromDisplayName);
+            var to = new MailAddress(targetEMail);
+            var mail = new MailMessage(from, to);
+            mail.IsBodyHtml = true;
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
 
-                if (!String.IsNullOrEmpty(_configuration.Attachment) &&
-                    File.Exists(_configuration.Attachment))
-                {
-                    mail.Attachments.Add(new Attachment(_configuration.Attachment));
-                }
-                if (!String.IsNullOrEmpty(_configuration.Cc)) mail.CC.Add(_configuration.Cc);
-                client.Send(mail);
-            }
-            catch (Exception ex)
+            if (!String.IsNullOrEmpty(_configuration.Attachment) &&
+                File.Exists(_configuration.Attachment))
             {
-                Console.WriteLine(ex.Message);
+                mail.Attachments.Add(new Attachment(_configuration.Attachment));
             }
+            if (!String.IsNullOrEmpty(_configuration.Cc)) mail.CC.Add(_configuration.Cc);
+            client.Send(mail);
+            client.Dispose();
         }
     }
 }
