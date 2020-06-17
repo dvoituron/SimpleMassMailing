@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Mail;
 
 namespace SimpleMassMailing.Data
@@ -34,7 +35,7 @@ namespace SimpleMassMailing.Data
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             var credentials = new System.Net.NetworkCredential(_configuration.Login, _configuration.Password);
-            client.EnableSsl = Convert.ToBoolean(_configuration.Ssl);
+            client.EnableSsl = _configuration.Ssl;
             client.Credentials = credentials;
 
             try
@@ -45,6 +46,12 @@ namespace SimpleMassMailing.Data
                 mail.IsBodyHtml = true;
                 mail.Subject = message.Subject;
                 mail.Body = message.Body;
+
+                if (!String.IsNullOrEmpty(_configuration.Attachment) &&
+                    File.Exists(_configuration.Attachment))
+                {
+                    mail.Attachments.Add(new Attachment(_configuration.Attachment));
+                }
                 if (!String.IsNullOrEmpty(_configuration.Cc)) mail.CC.Add(_configuration.Cc);
                 client.Send(mail);
             }

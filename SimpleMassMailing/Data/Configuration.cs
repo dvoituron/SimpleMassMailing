@@ -29,18 +29,20 @@ namespace SimpleMassMailing.Data
 
         public string Smtp => GetConfigurationValue("smtp");
         public string Port => GetConfigurationValue("port");
-        public string Ssl => GetConfigurationValue("ssl");
+        public bool Ssl => Convert.ToBoolean(GetConfigurationValue("ssl"));
         public string From => GetConfigurationValue("from");
         public string FromDisplayName => GetConfigurationValue("fromdisplayname");
         public string Cc => GetConfigurationValue("cc");
         public string Login => GetConfigurationValue("login");
         public string Password => GetConfigurationValue("password");
         public string ContentFile => GetConfigurationValue("contentfile");
+        public string Attachment => GetConfigurationValue("Attachment");
         public string DataFile => GetConfigurationValue("datafile");
+        public bool PromptBeforeSend => Convert.ToBoolean(GetConfigurationValue("PromptBeforeSend"));
 
         private string GetConfigurationValue(string key)
         {
-            return AllConfiguration.ContainsKey(key) ? AllConfiguration[key] : String.Empty;
+            return AllConfiguration.ContainsKey(key.ToLower()) ? AllConfiguration[key.ToLower()] : String.Empty;
         }
 
         private IDictionary<string, string> ReadConfiguration()

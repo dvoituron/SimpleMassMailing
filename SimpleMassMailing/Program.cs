@@ -24,8 +24,21 @@ namespace SimpleMassMailing
                 Console.Write(confirmation);
                 if (row.IsEnabled)
                 {
-                    var key = Console.ReadKey();
-                    if (key.KeyChar == 'Y' || key.KeyChar == 'y')
+                    bool toSend = false;
+
+                    // Automatic sends
+                    if (config.PromptBeforeSend)
+                    {
+                        var keyInfo = Console.ReadKey();
+                        if (keyInfo.KeyChar == 'Y' || keyInfo.KeyChar == 'y')
+                            toSend = true;
+                    }
+                    else
+                    {
+                        toSend = true;
+                    }
+
+                    if (toSend)
                     {
                         mail.SendMail(row.EMail, content, row.Parameters);
                         Console.WriteLine($"{String.Empty.PadLeft(confirmationPosition - confirmation.Length, ' ')} ... Sent");
@@ -38,6 +51,12 @@ namespace SimpleMassMailing
                 else
                 {
                     Console.WriteLine($"{String.Empty.PadLeft(confirmationPosition - confirmation.Length, ' ')}  ... Commented");
+                }
+
+                if (config.PromptBeforeSend == false)
+                {
+                    int timeBetweenNext = new Random().Next(1000, 3000);
+                    System.Threading.Thread.Sleep(timeBetweenNext);
                 }
             }
 
