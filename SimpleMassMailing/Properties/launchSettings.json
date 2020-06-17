@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SimpleMassMailing": {
+      "commandName": "Project",
+      "commandLineArgs": "-login=noreply@blazorday.online -password=jhsy4153"
+    }
+  }
+}

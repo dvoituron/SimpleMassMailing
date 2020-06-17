@@ -1,0 +1,3 @@
+﻿# Emails                           Firstname                     Lastname
+Denis@voituron.net               ; FIRSTNAME=Denis             ; LASTNAME=Voituron
+dvoituron@outlook.com            ; FIRSTNAME=Rémy              ; LASTNAME=Voituron
