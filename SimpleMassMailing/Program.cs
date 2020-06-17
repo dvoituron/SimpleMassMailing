@@ -20,7 +20,7 @@ namespace SimpleMassMailing
             foreach (var row in dataRows)
             {
                 rowNumber++;
-                string confirmation = $"{rowNumber}/{rowTotal}. Send to {row.EMail.Left(confirmationPosition-22)} (Y/N)? ";
+                string confirmation = $"{rowNumber}/{rowTotal}. Send to {row.EMail.Left(confirmationPosition - 22)} (Y/N)? ";
                 Console.Write(confirmation);
                 if (row.IsEnabled)
                 {
@@ -42,6 +42,13 @@ namespace SimpleMassMailing
                     {
                         mail.SendMail(row.EMail, content, row.Parameters);
                         Console.WriteLine($"{String.Empty.PadLeft(confirmationPosition - confirmation.Length, ' ')} ... Sent");
+
+                        // Wait some seconds before the next sent
+                        if (config.PromptBeforeSend == false)
+                        {
+                            int timeBetweenNext = new Random().Next(1000, 3000);
+                            System.Threading.Thread.Sleep(timeBetweenNext);
+                        }
                     }
                     else
                     {
@@ -52,12 +59,6 @@ namespace SimpleMassMailing
                 {
                     Console.WriteLine($"{String.Empty.PadLeft(confirmationPosition - confirmation.Length, ' ')}  ... Commented");
                 }
-
-                if (config.PromptBeforeSend == false)
-                {
-                    int timeBetweenNext = new Random().Next(1000, 3000);
-                    System.Threading.Thread.Sleep(timeBetweenNext);
-                }
             }
 
             Console.WriteLine("Completed");
@@ -65,6 +66,6 @@ namespace SimpleMassMailing
                 Console.ReadLine();
         }
 
-      
+
     }
 }
