@@ -15,17 +15,20 @@ namespace SimpleMassMailing.Data
                 row = row.Substring(1);
             }
 
-            var items = row.Split(';');
-
-            // Email = First element
-            EMail = items[0].Trim();
-
-            // Parameters
-            Parameters = new Dictionary<string, string>();
-            foreach (var item in items.Skip(1))
+            if (IsDisabled == false)
             {
-                var keyValue = item.Split('=');
-                Parameters.Add(keyValue[0].Trim(), keyValue[1].Trim());
+                var items = row.Split(';');
+
+                // Email = First element
+                EMail = items[0].Trim();
+
+                // Parameters
+                Parameters = new Dictionary<string, string>();
+                foreach (var item in items.Skip(1))
+                {
+                    var keyValue = item.Split('=');
+                    Parameters.Add(keyValue[0].Trim(), keyValue[1].Trim());
+                }
             }
         }
 

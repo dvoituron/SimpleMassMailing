@@ -1,2 +1,2 @@
-﻿# Emails                         
-Denis@voituron.net
+﻿# Emails                  ; LastName                 ; FirstName
+Denis@voituron.net        ; LastName=Voituron        ; FirstName=Denis
